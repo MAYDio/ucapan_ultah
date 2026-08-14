@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday!</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1: #1b1035;
+    --bg2: #2e1a52;
+    --panel: #241a3d;
+    --panel-light: #3a2a63;
+    --purple: #8a5cf6;
+    --purple-dark: #5b3aa8;
+    --yellow: #ffcd4b;
+    --yellow-dark: #f2a730;
+    --pink: #ff6fa5;
+    --mint: #4de6b8;
+    --white: #f4f0ff;
+    --dark: #100a20;
+  }
+  *{box-sizing:border-box; image-rendering:pixelated;}
+  html,body{margin:0;padding:0; height:100%;}
+  body{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'VT323', monospace;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(138,92,246,.25), transparent 40%),
+      linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+    overflow-y:auto;
+    overflow-x:hidden;
+    position:relative;
+    padding: 30px 14px;
+  }
+
+  .scanlines{
+    position:fixed; inset:0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,.14) 0px,
+      rgba(0,0,0,.14) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events:none;
+    z-index:10;
+  }
+
+  .star{
+    position:absolute;
+    width:3px; height:3px;
+    background: var(--white);
+    animation: twinkle steps(2) 1.4s infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{ opacity:1; }
+    50%{ opacity:.15; }
+  }
+
+  .stage{ position:relative; z-index:2; width:min(380px, 94vw); }
+
+  .panel{
+    background: var(--panel);
+    padding: 4px;
+    box-shadow:
+      0 0 0 4px var(--dark),
+      0 0 0 8px var(--purple),
+      0 10px 0 8px rgba(0,0,0,.35);
+  }
+  .panel-inner{
+    background: var(--panel);
+    border: 3px dashed var(--purple-dark);
+    padding: 22px 16px 18px;
+    text-align:center;
+  }
+
+  .marquee{
+    font-family:'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .marquee .dot{
+    width:6px; height:6px;
+    background: var(--pink);
+    animation: blinkdot steps(1) 1s infinite;
+  }
+  @keyframes blinkdot{ 50%{ opacity:0; } }
+
+  .sprite-wrap{
+    margin: 6px auto 16px;
+    position:relative;
+  }
+  .sprite{
+    position:absolute;
+    top:0;
+    left:0;
+    width: 8px;
+    height: 8px;
+    animation: bob steps(4) 1.4s infinite;
+  }
+  @keyframes bob{
+    0%{ transform: translateY(0px); }
+    50%{ transform: translateY(-4px); }
+    100%{ transform: translateY(0px); }
+  }
+
+  .speech{
+    background: var(--white);
+    border: 3px solid var(--dark);
+    padding: 10px 12px;
+    font-family:'Press Start 2P', monospace;
+    font-size: 8.5px;
+    line-height:1.8;
+    color: var(--dark);
+    margin: 0 auto 18px;
+    max-width: 280px;
+    position:relative;
+  }
+  .speech::after{
+    content:"";
+    position:absolute;
+    bottom:-10px; left:50%;
+    transform:translateX(-50%);
+    width:10px; height:10px;
+    background: var(--white);
+    border-right:3px solid var(--dark);
+    border-bottom:3px solid var(--dark);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+
+  h1{
+    font-family:'Press Start 2P', monospace;
+    font-size: 12px;
+    color: var(--yellow);
+    line-height:1.9;
+    margin: 0 0 12px;
+    text-shadow: 2px 2px 0 var(--purple-dark);
+  }
+  p.msg{
+    font-family:'VT323', monospace;
+    font-size: 17px;
+    color: var(--white);
+    margin: 0 0 20px;
+    line-height:1.5;
+    padding: 0 4px;
+    max-height: 180px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-align:center;
+    white-space: pre-line;
+    display: block;
+  }
+  p.msg::-webkit-scrollbar{ width: 8px; }
+  p.msg::-webkit-scrollbar-track{ background: transparent; }
+  p.msg::-webkit-scrollbar-thumb{ background: var(--purple-dark); }
+  p.msg::-webkit-scrollbar-button{ display: none; height: 0; width: 0; }
+
+  .btn{
+    font-family:'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--dark);
+    background: var(--yellow);
+    border: none;
+    padding: 12px 18px;
+    cursor:pointer;
+    box-shadow:
+      inset -4px -4px 0 var(--yellow-dark),
+      inset 4px 4px 0 rgba(255,255,255,.5),
+      4px 4px 0 var(--dark);
+    transition: transform .05s;
+  }
+  .btn:active{
+    transform: translate(4px, 4px);
+    box-shadow:
+      inset -4px -4px 0 var(--yellow-dark),
+      inset 4px 4px 0 rgba(255,255,255,.5);
+  }
+  .btn.opened{
+    background: var(--mint);
+    box-shadow:
+      inset -4px -4px 0 #2fae8c,
+      inset 4px 4px 0 rgba(255,255,255,.5),
+      4px 4px 0 var(--dark);
+  }
+
+  .chatbox{
+    margin-top:18px;
+    text-align:left;
+    max-height:0;
+    overflow:hidden;
+    transition: max-height .4s steps(6);
+  }
+  .chatbox.open{
+    max-height:280px;
+    overflow-y:auto;
+    overflow-x:hidden;
+  }
+  .chatbox.open::-webkit-scrollbar{ width: 8px; }
+  .chatbox.open::-webkit-scrollbar-track{ background: transparent; }
+  .chatbox.open::-webkit-scrollbar-thumb{ background: var(--purple-dark); }
+  .chatbox.open::-webkit-scrollbar-button{ display:none; height:0; width:0; }
+  .chatbox-inner{
+    background: var(--dark);
+    border: 3px solid var(--purple-dark);
+    padding: 10px;
+  }
+  .chat-line{
+    font-family:'VT323', monospace;
+    font-size: 15px;
+    color: var(--mint);
+    margin-bottom: 10px;
+    opacity:0;
+    white-space: pre-line;
+    line-height: 1.4;
+    animation: type-in steps(1) .3s forwards;
+  }
+  .chatbox.open .chat-line:nth-child(1){ animation-delay:.1s; }
+  .chatbox.open .chat-line:nth-child(2){ animation-delay:.5s; }
+  .chatbox.open .chat-line:nth-child(3){ animation-delay:.9s; }
+  .chatbox.open .chat-line:nth-child(4){ animation-delay:1.3s; }
+  @keyframes type-in{ to{ opacity:1; } }
+
+  .confetti{
+    position:fixed;
+    top:-10px;
+    width:6px; height:6px;
+    z-index:8;
+    animation: fall steps(8) linear forwards;
+  }
+  @keyframes fall{
+    to{ transform: translateY(112vh) rotate(360deg); opacity:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+<div id="stars"></div>
+
+<div class="stage">
+  <div class="panel">
+    <div class="panel-inner">
+
+      <div class="marquee"><span class="dot"></span> LIVE ULTAH <span class="dot"></span></div>
+
+      <div class="sprite-wrap">
+        <div class="sprite" id="sprite"></div>
+      </div>
+
+      <div class="speech">YEAY~ SPESIAL BANGET<br>HARI INI!! 🎉</div>
+
+      <h1 id="title">HAPPY<br>BIRTHDAY!</h1>
+      <p class="msg" id="message">Semoga tahun ini penuh cerita seru, drop lebih lancar, dan makin sukses di semua hal!</p>
+
+      <button class="btn" id="giftBtn" onclick="openGift(this)">[ BUKA KADO ]</button>
+
+      <div class="chatbox" id="chat">
+        <div class="chatbox-inner">
+          <div class="chat-line">Happy Birthday!</div>
+          <div class="chat-line">Di usiamu yang makin menua ini, aku memutuskan untuk tidak memberimu barang duniawi. Sebagai gantinya, aku memberikan doa tulus yang abadi (dan jujur aja, ini jauh lebih aman buat dompetku).
+
+Tolong diterima dengan ikhlas ya. Orang tua harus banyak-banyak bersyukur. Jangan banyak marah 🦆</div>
+          <div class="chat-line">"Hai kak kunchi, aku mungkin tidak bisa mengirimkan kado fisik, tapi aku harap tulisan ini bisa menyampaikan seberapa besar rasa terima kasihku. Terima kasih sudah selalu bekerja keras, menyiapkan konten terbaik, dan menghibur kita semua di tengah kesibukanmu."
+
+"Menonton stream kamu selalu menjadi bagian terbaik dalam hariku. Terima kasih sudah mendedikasikan waktu dan energi untuk membawa tawa ke layar kami. Kamu luar biasa!"
+
+"Tidak ada kado yang lebih berharga daripada konsistensi dan senyuman yang selalu kamu tunjukkan di setiap siaran. Terima kasih sudah bertahan dan terus bersinar."</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<audio id="bgm" src="Eh-ppy Birthday! _ Zenless Zone Zero.flac" loop></audio>
+
+<script>
+  const NAME = "KAK KUNCHIN";
+  const MESSAGE = "Semoga tahun ini penuh cerita seru, drop lebih lancar, dan makin sukses di semua hal!";
+  document.getElementById('title').innerHTML = "HAPPY<br>BIRTHDAY " + NAME + "!";
+  document.getElementById('message').textContent = MESSAGE;
+
+  const SIZE = 30;
+  const cx = 15, cy = 13;
+
+  function buildGrid(blink){
+    const grid = Array.from({length:SIZE}, () => Array(SIZE).fill(null));
+    const set = (x,y,c) => { if(x>=0 && x<SIZE && y>=0 && y<SIZE) grid[y][x]=c; };
+    const circle = (ox,oy,r,fill,outline) => {
+      for(let y=0;y<SIZE;y++){
+        for(let x=0;x<SIZE;x++){
+          const d = Math.hypot(x-ox, y-oy);
+          if(d<=r){ set(x,y, d>=r-1 ? (outline||fill) : fill); }
+        }
+      }
+    };
+    const rect = (x0,y0,w,h,c) => { for(let y=y0;y<y0+h;y++) for(let x=x0;x<x0+w;x++) set(x,y,c); };
+
+    const HAIR = '#ffab5e';
+    const HAIR_SHADE = '#e0812f';
+    const SKIN = '#ffe9dc';
+    const OUTLINE = '#160f28';
+    const EYE_L = '#4aa8e0';
+    const EYE_R = '#c7de5c';
+    const MOUTH = '#a8354a';
+    const TEETH = '#fff6ee';
+    const DRESS = '#f2984d';
+    const GOLD = '#ffd873';
+    const FLOWER = '#6fcbe0';
+
+    circle(cx, cy-2, 12, HAIR, OUTLINE);
+    circle(cx, cy-10, 5, HAIR_SHADE, OUTLINE);
+    circle(cx, cy+2, 8, SKIN, OUTLINE);
+
+    set(cx-4, cy-5, HAIR_SHADE); set(cx-4, cy-4, HAIR_SHADE);
+    set(cx-1, cy-6, HAIR_SHADE); set(cx-1, cy-5, HAIR_SHADE);
+    set(cx+3, cy-6, HAIR_SHADE); set(cx+3, cy-5, HAIR_SHADE);
+    set(cx+6, cy-5, HAIR_SHADE); set(cx+6, cy-4, HAIR_SHADE);
+
+    circle(cx-10, cy-8, 1.6, FLOWER, OUTLINE);
+    set(cx-12, cy-7, FLOWER);
+    set(cx-9, cy-10, FLOWER);
+
+    if(!blink){
+      rect(cx-6, cy+1, 3, 2, EYE_L);
+      rect(cx+3, cy+1, 3, 2, EYE_R);
+      set(cx-6, cy+1, OUTLINE); set(cx+5, cy+1, OUTLINE);
+      set(cx-4, cy+1, TEETH); set(cx+5, cy+2, TEETH);
+    } else {
+      rect(cx-6, cy+2, 3, 1, OUTLINE);
+      rect(cx+3, cy+2, 3, 1, OUTLINE);
+    }
+
+    rect(cx-2, cy+4, 5, 3, MOUTH);
+    rect(cx-2, cy+4, 5, 1, TEETH);
+    set(cx-2, cy+4, OUTLINE); set(cx+2, cy+4, OUTLINE);
+
+    rect(cx-9, cy+9, 4, 2, DRESS);
+    rect(cx+5, cy+9, 4, 2, DRESS);
+    rect(cx-5, cy+9, 10, 3, SKIN);
+    rect(cx-9, cy+12, 18, 3, DRESS);
+    rect(cx-9, cy+15, 18, 2, '#3f8f5a');
+    rect(cx-3, cy+15, 6, 2, GOLD);
+    set(cx-1, cy+15, OUTLINE); set(cx+1, cy+15, OUTLINE);
+    rect(cx-9, cy+17, 18, 2, DRESS);
+    set(cx-3, cy+13, GOLD); set(cx+2, cy+13, GOLD);
+
+    return grid;
+  }
+
+  function gridToShadow(grid, px){
+    const parts = [];
+    for(let y=0;y<SIZE;y++){
+      for(let x=0;x<SIZE;x++){
+        const c = grid[y][x];
+        if(c) parts.push(`${x*px}px ${y*px}px 0 0 ${c}`);
+      }
+    }
+    return parts.join(',');
+  }
+
+  const PX = 8;
+  const spriteEl = document.getElementById('sprite');
+  spriteEl.style.width = PX+'px';
+  spriteEl.style.height = PX+'px';
+
+  const frameOpen = gridToShadow(buildGrid(false), PX);
+  const frameBlink = gridToShadow(buildGrid(true), PX);
+  spriteEl.style.boxShadow = frameOpen;
+
+  spriteEl.parentElement.style.width = (SIZE*PX)+'px';
+  spriteEl.parentElement.style.height = (SIZE*PX)+'px';
+  spriteEl.parentElement.style.position = 'relative';
+
+  setInterval(()=>{
+    spriteEl.style.boxShadow = frameBlink;
+    setTimeout(()=>{ spriteEl.style.boxShadow = frameOpen; }, 160);
+  }, 3400);
+
+  const starsWrap = document.getElementById('stars');
+  for(let i=0;i<40;i++){
+    const s = document.createElement('div');
+    s.className='star';
+    s.style.left = Math.random()*100+'vw';
+    s.style.top = Math.random()*100+'vh';
+    s.style.animationDelay = (Math.random()*1.4)+'s';
+    starsWrap.appendChild(s);
+  }
+
+  let opened = false;
+  function openGift(btn){
+    opened = !opened;
+    const chat = document.getElementById('chat');
+    const bgm = document.getElementById('bgm');
+    if(opened){
+      chat.classList.add('open');
+      btn.textContent = '[ TUTUP KADO ]';
+      btn.classList.add('opened');
+      burstConfetti();
+      bgm.play().catch(()=>{});
+    } else {
+      chat.classList.remove('open');
+      btn.textContent = '[ BUKA KADO ]';
+      btn.classList.remove('opened');
+      bgm.pause();
+    }
+  }
+
+  function burstConfetti(){
+    const colors = ['#ffcd4b','#8a5cf6','#ff6fa5','#4de6b8','#f4f0ff'];
+    for(let i=0;i<60;i++){
+      const c = document.createElement('div');
+      c.className='confetti';
+      c.style.left = Math.random()*100+'vw';
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      c.style.animationDuration = (2.2+Math.random()*2)+'s';
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(), 4600);
+    }
+  }
+</script>
+</body>
+</html>
