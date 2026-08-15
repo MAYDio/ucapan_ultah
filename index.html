@@ -270,11 +270,11 @@
           <div class="chat-line">Di usiamu yang makin menua ini, aku memutuskan untuk tidak memberimu barang duniawi. Sebagai gantinya, aku memberikan doa tulus yang abadi (dan jujur aja, ini jauh lebih aman buat dompetku).
 
 Tolong diterima dengan ikhlas ya. Orang tua harus banyak-banyak bersyukur. Jangan banyak marah 🦆</div>
-          <div class="chat-line">"Hai kak kunchi, aku mungkin tidak bisa mengirimkan kado fisik, tapi aku harap tulisan ini bisa menyampaikan seberapa besar rasa terima kasihku. Terima kasih sudah selalu bekerja keras, menyiapkan konten terbaik, dan menghibur kita semua di tengah kesibukanmu."
+          <div class="chat-line">Maaf ya, hari ini aku cuma bisa memberikan selembar kertas ini. Kalau aku punya kemampuan lebih, aku pasti sudah membelikanmu hadiah paling indah di dunia, karena kamu pantas mendapatkan itu.
 
-"Menonton stream kamu selalu menjadi bagian terbaik dalam hariku. Terima kasih sudah mendedikasikan waktu dan energi untuk membawa tawa ke layar kami. Kamu luar biasa!"
+Tapi melalui tulisan ini, aku cuma mau berterima kasih. Terima kasih karena sudah mau bertahan melewati masa-masa yang berat. Terima kasih sudah menjadi sosok yang selalu ada, bahkan saat duniaku sedang berantakan.
 
-"Tidak ada kado yang lebih berharga daripada konsistensi dan senyuman yang selalu kamu tunjukkan di setiap siaran. Terima kasih sudah bertahan dan terus bersinar."</div>
+Kado dariku mungkin tidak berwujud, tapi percayalah, namamu adalah salah satu yang paling sering aku sebut dalam setiap doa suciku. Berbahagialah selalu, karena melihatmu tersenyum adalah hadiah terindah untukku.</div>
         </div>
       </div>
 
@@ -282,10 +282,13 @@ Tolong diterima dengan ikhlas ya. Orang tua harus banyak-banyak bersyukur. Janga
   </div>
 </div>
 
-<audio id="bgm" src="Eh-ppy Birthday! _ Zenless Zone Zero.flac" loop></audio>
+<audio id="bgm" src="lagu.flac" loop preload="auto"></audio>
 
 <script>
-  const NAME = "KAK KUNCHIN";
+  const bgmEl = document.getElementById('bgm');
+  bgmEl.load();
+
+  const NAME = "NAMA KAMU";
   const MESSAGE = "Semoga tahun ini penuh cerita seru, drop lebih lancar, dan makin sukses di semua hal!";
   document.getElementById('title').innerHTML = "HAPPY<br>BIRTHDAY " + NAME + "!";
   document.getElementById('message').textContent = MESSAGE;
